@@ -3,6 +3,10 @@
     <string name="app_name">GradProject</string>
     <string name="desc">Image</string>
     <string name="Splash_text">Delivery Man</string>
+    <string name="hintUserEmail">someone@example.com</string>
+    <string name="hintPassword">*******</string>
+    <string name="loginBtn">LogIn</string>
+    <string name="welcomeTo">Welcome To</string>
 
     <!-- Asmaa -->
 
