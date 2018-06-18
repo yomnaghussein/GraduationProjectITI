@@ -3,6 +3,10 @@
     <string name="app_name">GradProject</string>
     <string name="desc">Image</string>
     <string name="Splash_text">Delivery Man</string>
+    <string name="availability">Availability</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Asmaa -->
 
