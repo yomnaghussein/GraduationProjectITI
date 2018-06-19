@@ -1,10 +1,13 @@
 <resources>
-    <!-- Yomna -->
+    <!--Start of Yomna -->
     <string name="app_name">GradProject</string>
     <string name="desc">Image</string>
     <string name="Splash_text">Delivery Man</string>
     <string name="availability">Availability</string>
 
+    <!--End of Yomna-->
+
+    <!--Start of Asmaa-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hintUserEmail">someone@example.com</string>
@@ -19,7 +22,7 @@
     <string name="str_ok_btn_label">OK</string>
     <string name="str_loading">loading</string>
 
-    <!-- Asmaa -->
+    <!-- End of Asmaa -->
 
 
 </resources>
