@@ -7,6 +7,14 @@
     <string name="hintPassword">*******</string>
     <string name="loginBtn">LogIn</string>
     <string name="welcomeTo">Welcome To</string>
+    <string name="emptyEmail">Please enter your email</string>
+    <string name="emptyPassword">Please enter your password</string>
+    <string name="invalidEmail">Please enter valid Format for email</string>
+    <string name="connectionError">No Connection</string>
+    <string name="str_login_failed">Login Failed</string>
+    <string name="str_ok_btn_label">OK</string>
+    <string name="str_loading">loading</string>
+
 
     <!-- Asmaa -->
 
