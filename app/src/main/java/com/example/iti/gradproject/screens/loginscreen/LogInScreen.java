@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +23,16 @@ public class LogInScreen extends AppCompatActivity implements LogInContract.LogI
     Button loginBtn;
     TextView errorText;
     ProgressDialog progressDialog;
+    LogInPresenterImpl loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_screen);
+        loginPresenter = new LogInPresenterImpl(this, this);
         bindViews();
         actionLogin();
+
 
     }
 
@@ -36,7 +40,13 @@ public class LogInScreen extends AppCompatActivity implements LogInContract.LogI
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               validateInput();
+                if (validateInput()) {
+                    Log.i("usermail",userEmail.getText().toString());
+                    Log.i("userpass",userPassword.getText().toString());
+
+                    loginPresenter.loginWithUsernameOrPhoneNumber(userEmail.getText().toString(), userPassword.getText().toString());
+                }
+
             }
         });
     }
