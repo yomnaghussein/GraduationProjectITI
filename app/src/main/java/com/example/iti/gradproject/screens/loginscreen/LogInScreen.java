@@ -94,7 +94,7 @@ public class LogInScreen extends AppCompatActivity implements LogInContract.LogI
 
     @Override
     public void navigateToOrdersActivity() {
-        Intent i = new Intent(this, com.example.iti.gradproject.screens.editprofilescreen.EditProfileScreen.class);
+        Intent i = new Intent(this, com.example.iti.gradproject.screens.homescreen.HomeScreen.class);
         startActivity(i);
 
     }

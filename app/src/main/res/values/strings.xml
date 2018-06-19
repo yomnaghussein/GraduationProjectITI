@@ -21,6 +21,7 @@
     <string name="str_login_failed">Login Failed</string>
     <string name="str_ok_btn_label">OK</string>
     <string name="str_loading">loading</string>
+    <string name="str_an_error_happend">Error Occurs</string>
 
     <!-- End of Asmaa -->
 
