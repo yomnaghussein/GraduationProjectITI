@@ -1,9 +1,14 @@
 package com.example.iti.gradproject.models;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 
+import com.example.iti.gradproject.R;
 import com.example.iti.gradproject.models.entities.UserProfile;
 import com.google.gson.Gson;
 
@@ -31,5 +36,25 @@ public class Utilities {
         Gson gson = new Gson();
 
         return gson.fromJson(userAsString, UserProfile.class);
+    }
+
+    public static boolean isConnectedToInternet(Context context) {
+
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm != null ? cm.getActiveNetworkInfo() : null;
+
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+    public static void showInternetErrorDialog(Context context){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Internet Connection Error")
+                .setMessage("Please check your internet connection...")
+                .setPositiveButton(R.string.str_ok_btn_label, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 }

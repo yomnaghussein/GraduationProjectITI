@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.iti.gradproject.R;
 import com.example.iti.gradproject.models.App;
@@ -38,7 +40,8 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     RecyclerView doneRecycleView;
     @BindView(R.id.swipeDone)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
+    String accesstoken = Utilities.getTokenFromPref(App.getApplication());
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,7 +50,7 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private DoneContract.DonePresenter donePresenter;
+    private DoneContract.DonePresenter donePresenter = new DonePresenterImpl(App.getApplication(),this);
     private OnFragmentInteractionListener mListener;
 
     public DoneTabFragment() {
@@ -80,14 +83,8 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        donePresenter = new DonePresenterImpl(App.getApplication(),this);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,9 +92,8 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_done_tab, container, false);
         ButterKnife.bind(this, view);
-        final UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
-        final String accesstoken = Utilities.getTokenFromPref(App.getApplication());
-        donePresenter.getHistoryOrders(userProfile.getId().toString(),accesstoken);
+
+        //getHistoryOrders();
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -106,7 +102,7 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                donePresenter.getHistoryOrders(userProfile.getId().toString(),accesstoken);
+                getHistoryOrders();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -130,6 +126,7 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
@@ -158,5 +155,27 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // Refresh your fragment here
+            Log.e("asmaa","done");
+            getHistoryOrders();
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        getHistoryOrders();
+    }
+
+    public void getHistoryOrders(){
+        if(userProfile.getId()!=null&&accesstoken!=null)
+            donePresenter.getHistoryOrders(userProfile.getId().toString(),accesstoken);
+
     }
 }
