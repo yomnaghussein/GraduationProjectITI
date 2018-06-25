@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.iti.gradproject.R;
@@ -44,6 +46,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         holder.tv_date.setText(list.get(position).getDeliveryDueDate());
         holder.tv_id.setText(list.get(position).getOrderId().toString());
         holder.tv_Status.setText(list.get(position).getOrderStatus());
+        holder.tv_hub.setText(list.get(position).getHubName());
+        holder.tv_distination.setText("estany");
         holder.foldingCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +55,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
                 holder.foldingCell.toggle(false);
             }
         });
+
+        String[] items = new String[] { "  Chai Latte", "  Green Tea", "  Black Tea"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+        holder.statusSpinner.setPrompt("Change Status...");
+        holder.statusSpinner.setAdapter(adapter);
 
     }
 
@@ -61,9 +70,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     class OrderListViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tv_id,tv_Status,tv_date;
-        Button btn_changeStatus;
+        TextView tv_id,tv_Status,tv_date,tv_hub,tv_distination;
         FoldingCell foldingCell;
+        Spinner statusSpinner;
+        Button btn_map;
 
         public OrderListViewHolder(View itemView) {
 
@@ -72,7 +82,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             tv_Status=itemView.findViewById(R.id.tv_status);
             tv_id=itemView.findViewById(R.id.tv_id);
             foldingCell=itemView.findViewById(R.id.folding_cell2);
-            btn_changeStatus=itemView.findViewById(R.id.button);
+            tv_hub=itemView.findViewById(R.id.tv_StartPoint);
+            tv_distination=itemView.findViewById(R.id.tv_endPoint);
+            statusSpinner=itemView.findViewById(R.id.dropDown);
+            btn_map=itemView.findViewById(R.id.btn_start);
 
 
 
