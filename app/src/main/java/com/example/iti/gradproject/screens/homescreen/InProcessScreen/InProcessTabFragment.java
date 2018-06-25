@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.iti.gradproject.R;
 import com.example.iti.gradproject.models.App;
@@ -36,6 +38,8 @@ import butterknife.ButterKnife;
 public class InProcessTabFragment extends Fragment implements InProcessContract.InProcessFragment{
     @BindView(R.id.inProgressRecycleView)
     RecyclerView inProgressRecycleView;
+    @BindView(R.id.swipeInprocess)
+    SwipeRefreshLayout swipeRefreshLayout;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -85,10 +89,24 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_in_process_tab, container, false);
         ButterKnife.bind(this, view);
-        UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
-        String accesstoken = Utilities.getTokenFromPref(App.getApplication());
+        final UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
+        final String accesstoken = Utilities.getTokenFromPref(App.getApplication());
         //Log.i("ASMAAA",userProfile.getId().toString());
         inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
         return view;
     }
 
