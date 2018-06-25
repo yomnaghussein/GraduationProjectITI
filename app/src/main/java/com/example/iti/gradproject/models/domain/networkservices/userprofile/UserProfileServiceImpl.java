@@ -18,6 +18,7 @@ public class UserProfileServiceImpl {
     public UserProfileServiceImpl() {
         userProfileService = RetrofitClient.getsInstance().create(UserProfileService.class);
     }
+
     public void getUserProfile(String token) {
 
 

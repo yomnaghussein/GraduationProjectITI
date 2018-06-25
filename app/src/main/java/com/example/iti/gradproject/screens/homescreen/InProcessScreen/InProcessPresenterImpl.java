@@ -3,14 +3,19 @@ package com.example.iti.gradproject.screens.homescreen.InProcessScreen;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.iti.gradproject.models.App;
+import com.example.iti.gradproject.models.Utilities;
 import com.example.iti.gradproject.models.domain.basenetworkservice.BaseService;
 import com.example.iti.gradproject.models.domain.network.RetrofitClient;
 import com.example.iti.gradproject.models.domain.networkservices.orderstatus.OrderStatusServiceImpl;
 import com.example.iti.gradproject.models.domain.networkservices.upcomingorders.UpcomingOrdersService;
 import com.example.iti.gradproject.models.domain.networkservices.upcomingorders.UpcomingOrdersServiceImpl;
+import com.example.iti.gradproject.models.domain.networkservices.updatestatus.UpdateStatusServiceImpl;
 import com.example.iti.gradproject.models.entities.OrderResponseObject;
 import com.example.iti.gradproject.models.entities.OrderStatusResponse;
+import com.example.iti.gradproject.models.entities.UpdateOrderResponse;
 import com.example.iti.gradproject.models.entities.upcomingorders.UpcomingOrdersResponse;
+import com.example.iti.gradproject.screens.homescreen.HomeScreenContract;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -20,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-public class InProcessPresenterImpl implements InProcessContract.InProcessPresenter,BaseService.ViewUpcomingOrders,BaseService.ViewOrderStatus{
+public class InProcessPresenterImpl implements InProcessContract.InProcessPresenter,HomeScreenContract.HomePresenter,BaseService.ViewUpcomingOrders,BaseService.ViewOrderStatus{
     private static final String LOG_TAG = InProcessPresenterImpl.class.getSimpleName();
     private final Context context;
     private final InProcessContract.InProcessFragment view;
@@ -29,7 +34,7 @@ public class InProcessPresenterImpl implements InProcessContract.InProcessPresen
     private List<String> orderStatusList;
     private OrderStatusServiceImpl ordersChangeService;
 
-    InProcessPresenterImpl(Context context,  InProcessContract.InProcessFragment view) {
+    public InProcessPresenterImpl(Context context, InProcessContract.InProcessFragment view) {
         this.context = context;
         this.view = view;
         upcomingOrdersService = new UpcomingOrdersServiceImpl();
@@ -49,6 +54,7 @@ public class InProcessPresenterImpl implements InProcessContract.InProcessPresen
                 UpcomingOrdersResponse successfulResponse = response.body();
                 orderResponseObjectList =  successfulResponse.getOrderResponseObject();
                 view.setUpcomingOrdersAdapter(orderResponseObjectList,orderStatusList);
+
 
 
                 break;
@@ -97,5 +103,15 @@ public class InProcessPresenterImpl implements InProcessContract.InProcessPresen
                     e.printStackTrace();
                 }
         }
+    }
+
+
+
+
+
+
+    @Override
+    public void updateOrderStatus(long orderId, String orderStatus) {
+
     }
 }
