@@ -1,12 +1,16 @@
 package com.example.iti.gradproject.screens.homescreen;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.iti.gradproject.R;
+import com.example.iti.gradproject.screens.editprofilescreen.EditProfileScreen;
 import com.example.iti.gradproject.screens.homescreen.DoneScreen.DoneTabFragment;
 import com.example.iti.gradproject.screens.homescreen.InProcessScreen.InProcessTabFragment;
 
@@ -19,6 +23,8 @@ public class HomeScreen extends AppCompatActivity implements InProcessTabFragmen
     TabLayout tabLayout;
     @BindView(R.id.pager)
     ViewPager viewPager;
+    @BindView(R.id.profile_img)
+    ImageView profileImgV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,14 @@ public class HomeScreen extends AppCompatActivity implements InProcessTabFragmen
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        profileImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(HomeScreen.this, EditProfileScreen.class);
+                startActivity(intent);
             }
         });
 
