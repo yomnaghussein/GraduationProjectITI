@@ -1,6 +1,7 @@
 package com.example.iti.gradproject.screens.loginscreen;
 
 public interface LogInContract {
+
     public static interface LogInPresenter {
         void loginWithUsernameOrPhoneNumber(String emailOrPhoneNumber, String password);
 

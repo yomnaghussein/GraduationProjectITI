@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.iti.gradproject.R;
+import com.example.iti.gradproject.models.App;
+import com.example.iti.gradproject.models.Utilities;
 import com.example.iti.gradproject.models.entities.Order;
+import com.example.iti.gradproject.models.entities.OrderResponseObject;
+import com.example.iti.gradproject.models.entities.UserProfile;
 import com.example.iti.gradproject.screens.homescreen.OrderListAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ import butterknife.ButterKnife;
  * Use the {@link InProcessTabFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InProcessTabFragment extends Fragment {
+public class InProcessTabFragment extends Fragment implements InProcessContract.InProcessFragment{
     @BindView(R.id.inProgressRecycleView)
     RecyclerView inProgressRecycleView;
     // TODO: Rename parameter arguments, choose names that match
@@ -39,7 +44,7 @@ public class InProcessTabFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private InProcessContract.InProcessPresenter inProcessPresenter;
     private OnFragmentInteractionListener mListener;
 
     public InProcessTabFragment() {
@@ -71,6 +76,7 @@ public class InProcessTabFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        inProcessPresenter = new InProcessPresenterImpl(App.getApplication(),this);
     }
 
     @Override
@@ -79,19 +85,10 @@ public class InProcessTabFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_in_process_tab, container, false);
         ButterKnife.bind(this, view);
-        List<Order> list=new ArrayList<>();
-        Order order=new Order();
-        order.setDeadline("10/10/2010");
-        order.setOrderID("#10");
-        order.setStatus("waiting");
-        inProgressRecycleView.setHasFixedSize(true);
-        inProgressRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list.add(order);
-        list.add(order);
-        list.add(order);
-        list.add(order);
-        OrderListAdapter adapter=new OrderListAdapter(getContext(),list);
-        inProgressRecycleView.setAdapter(adapter);
+        UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
+        String accesstoken = Utilities.getTokenFromPref(App.getApplication());
+        //Log.i("ASMAAA",userProfile.getId().toString());
+        inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
         return view;
     }
 
@@ -117,6 +114,13 @@ public class InProcessTabFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void setUpcomingOrdersAdapter(List<OrderResponseObject> orderResponseObjectList) {
+        inProgressRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList);
+        inProgressRecycleView.setAdapter(adapter);
     }
 
     /**

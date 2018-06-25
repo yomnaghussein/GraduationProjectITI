@@ -7,16 +7,18 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.example.iti.gradproject.R;
+import com.example.iti.gradproject.models.App;
 import com.example.iti.gradproject.models.domain.basenetworkservice.BaseService;
 import com.example.iti.gradproject.models.domain.network.RetrofitClient;
-import com.example.iti.gradproject.models.domain.networkservices.login.LoginService;
 import com.example.iti.gradproject.models.domain.networkservices.login.LoginServiceImpl;
+import com.example.iti.gradproject.models.domain.networkservices.userprofile.UserProfileService;
+import com.example.iti.gradproject.models.domain.networkservices.userprofile.UserProfileServiceImpl;
 import com.example.iti.gradproject.models.entities.LoginResponse;
+import com.example.iti.gradproject.models.Utilities;
 
 import java.lang.annotation.Annotation;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
 
@@ -68,7 +70,11 @@ public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseSer
         switch (response.code()) {
             case 200:
                 LoginResponse successfulResponse = response.body();
-                Log.i(LOG_TAG, "accessToken: " + successfulResponse.getAccessToken());
+                String accesstoken = successfulResponse.getAccessToken();
+                Log.i(LOG_TAG, "accessToken: " + accesstoken);
+                Utilities.saveTokenPref(App.getApplication(),accesstoken);
+
+                new UserProfileServiceImpl().getUserProfile("Bearer "+accesstoken);
                 view.navigateToOrdersActivity();
                 break;
 
