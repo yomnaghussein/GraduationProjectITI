@@ -1,6 +1,8 @@
 package com.example.iti.gradproject.models.domain.basenetworkservice;
 
 import com.example.iti.gradproject.models.entities.LoginResponse;
+import com.example.iti.gradproject.models.entities.OrderStatusResponse;
+import com.example.iti.gradproject.models.entities.UpdateOrderResponse;
 import com.example.iti.gradproject.models.entities.UserProfileResponse;
 import com.example.iti.gradproject.models.entities.historyorders.HistoryOrdersResponse;
 import com.example.iti.gradproject.models.entities.upcomingorders.UpcomingOrdersResponse;
@@ -18,6 +20,9 @@ public interface BaseService {
     }
     interface ViewHistoryOrders extends BaseService {
         void onSuccess(Response<HistoryOrdersResponse> response);
+    }
+    interface ViewOrderStatus extends BaseService {
+        void onSuccessOrders(Response<OrderStatusResponse> response);
     }
 
 

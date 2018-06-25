@@ -93,7 +93,7 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
         View view=inflater.inflate(R.layout.fragment_done_tab, container, false);
         ButterKnife.bind(this, view);
 
-        //getHistoryOrders();
+
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -136,9 +136,9 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     }
 
     @Override
-    public void setHistoryOrdersAdapter(List<OrderResponseObject> orderResponseObjectList) {
+    public void setHistoryOrdersAdapter(List<OrderResponseObject> orderResponseObjectList, List<String> orderStatusList) {
         doneRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList);
+        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList,orderStatusList);
         doneRecycleView.setAdapter(adapter);
     }
 
