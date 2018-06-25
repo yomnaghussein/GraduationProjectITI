@@ -88,7 +88,9 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
         UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
         String accesstoken = Utilities.getTokenFromPref(App.getApplication());
         //Log.i("ASMAAA",userProfile.getId().toString());
+        inProcessPresenter.getOrders(accesstoken);
         inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+
         return view;
     }
 
@@ -117,9 +119,9 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
     }
 
     @Override
-    public void setUpcomingOrdersAdapter(List<OrderResponseObject> orderResponseObjectList) {
+    public void setUpcomingOrdersAdapter(List<OrderResponseObject> orderResponseObjectList,List<String> orderStatusList) {
         inProgressRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList);
+        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList,orderStatusList);
         inProgressRecycleView.setAdapter(adapter);
     }
 

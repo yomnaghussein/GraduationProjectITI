@@ -6,7 +6,9 @@ import android.util.Log;
 import com.example.iti.gradproject.models.domain.basenetworkservice.BaseService;
 import com.example.iti.gradproject.models.domain.network.RetrofitClient;
 import com.example.iti.gradproject.models.domain.networkservices.historyorders.HistoryOrdersServiceImpl;
+import com.example.iti.gradproject.models.domain.networkservices.orderstatus.OrderStatusServiceImpl;
 import com.example.iti.gradproject.models.entities.OrderResponseObject;
+import com.example.iti.gradproject.models.entities.OrderStatusResponse;
 import com.example.iti.gradproject.models.entities.historyorders.HistoryOrdersResponse;
 
 import java.lang.annotation.Annotation;
@@ -17,13 +19,15 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 
-public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService.ViewHistoryOrders {
+public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService.ViewHistoryOrders ,BaseService.ViewOrderStatus{
 
     private static final String LOG_TAG = DonePresenterImpl.class.getSimpleName();
     private final Context context;
     private final DoneContract.DoneFragment view;
     private HistoryOrdersServiceImpl historyOrdersService;
-
+    private List<OrderResponseObject> orderResponseObjectList;
+    private List<String> orderStatusList;
+    private OrderStatusServiceImpl ordersChangeService;
 
 
 
@@ -31,7 +35,7 @@ public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService
         this.context = context;
         this.view = view;
         historyOrdersService = new HistoryOrdersServiceImpl();
-
+        ordersChangeService = new OrderStatusServiceImpl();
     }
 
     @Override
@@ -44,8 +48,8 @@ public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService
         switch (response.code()) {
             case 200:
                 HistoryOrdersResponse successfulResponse = response.body();
-                List<OrderResponseObject> orderResponseObjectList =  successfulResponse.getOrderResponseObject();
-                view.setHistoryOrdersAdapter(orderResponseObjectList);
+                orderResponseObjectList =  successfulResponse.getOrderResponseObject();
+                view.setHistoryOrdersAdapter(orderResponseObjectList,orderStatusList);
 
                 break;
 
@@ -65,5 +69,32 @@ public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService
     @Override
     public void getHistoryOrders(String deliveryManId,String accessToken) {
         historyOrdersService.getHistoryOrders(deliveryManId,accessToken,this);
+    }
+
+    @Override
+    public void getOrders(String token) {
+        ordersChangeService.getOrders(token,this);
+    }
+
+    @Override
+    public void onSuccessOrders(Response<OrderStatusResponse> response) {
+        switch (response.code()) {
+            case 200:
+                OrderStatusResponse successfulResponse = response.body();
+                orderStatusList =  successfulResponse.getOrderResponseObject();
+
+                break;
+
+            default:
+                Converter<ResponseBody, OrderStatusResponse> converter = RetrofitClient.getsInstance().responseBodyConverter(OrderStatusResponse.class, new Annotation[0]);
+                try {
+                    OrderStatusResponse error = converter.convert(response.errorBody());
+                    Log.i(LOG_TAG, "Response code: "+response.code()+ " message: "+error.getMessage());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
     }
 }

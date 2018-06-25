@@ -7,9 +7,10 @@ import java.util.List;
 public interface InProcessContract {
     public interface InProcessPresenter{
         public void getUpcomingOrders(String deliveryManId, String accessToken);
+        public void getOrders(String token);
     }
     public interface InProcessFragment{
-        void setUpcomingOrdersAdapter(List<OrderResponseObject> orderResponseObjectList);
+        void setUpcomingOrdersAdapter(List<OrderResponseObject> orderResponseObjectList,List<String> orderStatusList);
     }
 }
 

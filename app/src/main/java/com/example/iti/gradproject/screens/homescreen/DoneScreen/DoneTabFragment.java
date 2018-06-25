@@ -95,6 +95,7 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
         ButterKnife.bind(this, view);
         UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
         String accesstoken = Utilities.getTokenFromPref(App.getApplication());
+        donePresenter.getOrders(accesstoken);
         donePresenter.getHistoryOrders(userProfile.getId().toString(),accesstoken);
 
         return view;
@@ -125,9 +126,9 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     }
 
     @Override
-    public void setHistoryOrdersAdapter(List<OrderResponseObject> orderResponseObjectList) {
+    public void setHistoryOrdersAdapter(List<OrderResponseObject> orderResponseObjectList, List<String> orderStatusList) {
         doneRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList);
+        OrderListAdapter adapter=new OrderListAdapter(getContext(),orderResponseObjectList,orderStatusList);
         doneRecycleView.setAdapter(adapter);
     }
 

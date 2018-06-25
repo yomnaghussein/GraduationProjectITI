@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.iti.gradproject.R;
 import com.example.iti.gradproject.models.entities.Order;
 import com.example.iti.gradproject.models.entities.OrderResponseObject;
+import com.example.iti.gradproject.models.entities.OrderStatusResponse;
 import com.ramotion.foldingcell.FoldingCell;
 
 
@@ -25,10 +26,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     private Context context;
     private List<OrderResponseObject> list;
+    private List<String> changeStatusList;
 
-    public OrderListAdapter(Context context, List<OrderResponseObject> list) {
+    public OrderListAdapter(Context context, List<OrderResponseObject> list,List<String> changeStatusList) {
         this.context = context;
         this.list = list;
+        this.changeStatusList = changeStatusList;
     }
 
     @NonNull
@@ -56,8 +59,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             }
         });
 
-        String[] items = new String[] { "  Chai Latte", "  Green Tea", "  Black Tea"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+        //String[] items = new String[] { "  Chai Latte", "  Green Tea", "  Black Tea"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, changeStatusList);
         holder.statusSpinner.setPrompt("Change Status...");
         holder.statusSpinner.setAdapter(adapter);
 
