@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.iti.gradproject.R;
 import com.example.iti.gradproject.models.entities.Order;
+import com.example.iti.gradproject.models.entities.OrderResponseObject;
 import com.ramotion.foldingcell.FoldingCell;
 
 
@@ -21,9 +22,9 @@ import java.util.List;
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.OrderListViewHolder>{
 
     private Context context;
-    private List<Order> list;
+    private List<OrderResponseObject> list;
 
-    public OrderListAdapter(Context context, List<Order> list) {
+    public OrderListAdapter(Context context, List<OrderResponseObject> list) {
         this.context = context;
         this.list = list;
     }
@@ -39,9 +40,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     @Override
     public void onBindViewHolder(@NonNull final OrderListViewHolder holder, int position) {
-        String temp=list.get(position).getStatus();
-       // holder.textView1.setText("Details");
-        //holder.textView2.setText("Order");
+
+        holder.tv_date.setText(list.get(position).getDeliveryDueDate());
+        holder.tv_id.setText(list.get(position).getOrderId().toString());
+        holder.tv_Status.setText(list.get(position).getOrderStatus());
         holder.foldingCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,9 +64,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         TextView tv_id,tv_Status,tv_date;
         Button btn_changeStatus;
         FoldingCell foldingCell;
+
         public OrderListViewHolder(View itemView) {
+
             super(itemView);
-            tv_date=itemView.findViewById(R.id.tv_id);
+            tv_date=itemView.findViewById(R.id.tv_date);
             tv_Status=itemView.findViewById(R.id.tv_status);
             tv_id=itemView.findViewById(R.id.tv_id);
             foldingCell=itemView.findViewById(R.id.folding_cell2);
