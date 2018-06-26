@@ -18,14 +18,18 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        animationDuration="1000"
+        app:backSideColor="@color/lightGrey"
+        additionalFlipsCount="2"
+        cameraHeight="30">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cell_content_view"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:visibility="gone"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentTop="true"
+            android:visibility="gone">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/loc"
@@ -44,9 +48,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="3dp"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
                     android:background="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,19 +115,18 @@
                 android:id="@+id/dropDown"
                 android:layout_width="232dp"
                 android:layout_height="42dp"
-                android:spinnerMode="dialog"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:spinnerMode="dialog"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loc"
-                app:layout_constraintVertical_bias="0.268"
-                />
+                app:layout_constraintVertical_bias="0.268" />
 
             <Button
                 android:id="@+id/btn_start"
@@ -182,7 +183,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.167"
+                app:layout_constraintHorizontal_bias="0.149"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.09" />
@@ -197,7 +198,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Status: "
+                android:text="Due Time: "
                 android:textColor="@color/veryDarkGreen"
                 android:textSize="19dp"
                 android:textStyle="bold"
@@ -218,13 +219,13 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Deadline:"
+                android:text="Due Date:"
                 android:textColor="@color/veryDarkGreen"
                 android:textSize="19dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.205"
+                app:layout_constraintHorizontal_bias="0.185"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 app:layout_constraintVertical_bias="0.0" />
@@ -239,18 +240,19 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="#123"
+                android:text="1"
                 android:textColor="@color/veryDarkGreen"
                 android:textSize="19dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.423"
                 app:layout_constraintStart_toEndOf="@+id/txt_id"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.09" />
 
             <TextView
-                android:id="@+id/tv_status"
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -259,13 +261,13 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="waiting"
+                android:text="08:30:00"
                 android:textColor="@color/veryDarkGreen"
                 android:textSize="19dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.413"
+                app:layout_constraintHorizontal_bias="0.321"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_id"
                 app:layout_constraintVertical_bias="0.0" />
@@ -288,7 +290,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.468"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status"
+                app:layout_constraintTop_toBottomOf="@+id/tv_time"
                 app:layout_constraintVertical_bias="0.0" />
 
 

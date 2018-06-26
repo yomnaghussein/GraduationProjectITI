@@ -39,7 +39,7 @@ public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseSer
 
     @Override
     public void loginWithUsernameOrPhoneNumber(String emailOrPhoneNumber, String password) {
-        if (!isConnectedToInternet()) {
+        if (!Utilities.isConnectedToInternet(context)) {
             view.showErrorDialogue(context.getResources().getString(R.string.connectionError));
 
         } else {
@@ -48,14 +48,6 @@ public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseSer
         }
     }
 
-    private boolean isConnectedToInternet() {
-
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm != null ? cm.getActiveNetworkInfo() : null;
-
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
 
 
     @Override

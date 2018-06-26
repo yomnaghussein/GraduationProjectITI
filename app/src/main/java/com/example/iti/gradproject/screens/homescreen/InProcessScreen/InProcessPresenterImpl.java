@@ -75,7 +75,9 @@ public class InProcessPresenterImpl implements InProcessContract.InProcessPresen
 
     @Override
     public void getUpcomingOrders(String deliveryManId, String accessToken) {
-        upcomingOrdersService.getHistoryOrders(deliveryManId,accessToken,this);
+
+            upcomingOrdersService.getHistoryOrders(deliveryManId, accessToken, this);
+
     }
 
     @Override

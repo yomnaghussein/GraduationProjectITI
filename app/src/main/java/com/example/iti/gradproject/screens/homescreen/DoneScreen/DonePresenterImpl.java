@@ -1,8 +1,10 @@
 package com.example.iti.gradproject.screens.homescreen.DoneScreen;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.iti.gradproject.models.Utilities;
 import com.example.iti.gradproject.models.domain.basenetworkservice.BaseService;
 import com.example.iti.gradproject.models.domain.network.RetrofitClient;
 import com.example.iti.gradproject.models.domain.networkservices.historyorders.HistoryOrdersServiceImpl;
@@ -68,7 +70,12 @@ public class DonePresenterImpl implements DoneContract.DonePresenter,BaseService
 
     @Override
     public void getHistoryOrders(String deliveryManId,String accessToken) {
-        historyOrdersService.getHistoryOrders(deliveryManId,accessToken,this);
+        if (!Utilities.isConnectedToInternet(context)) {
+            Utilities.showInternetErrorDialog(context);
+        }
+        else {
+            historyOrdersService.getHistoryOrders(deliveryManId, accessToken, this);
+        }
     }
 
     @Override

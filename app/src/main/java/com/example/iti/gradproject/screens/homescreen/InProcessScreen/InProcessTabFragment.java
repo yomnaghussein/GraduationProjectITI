@@ -40,6 +40,8 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
     RecyclerView inProgressRecycleView;
     @BindView(R.id.swipeInprocess)
     SwipeRefreshLayout swipeRefreshLayout;
+    final UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
+    final String accesstoken = Utilities.getTokenFromPref(App.getApplication());
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,7 +50,7 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private InProcessContract.InProcessPresenter inProcessPresenter;
+    private InProcessContract.InProcessPresenter inProcessPresenter = new InProcessPresenterImpl(App.getApplication(),this);
     private OnFragmentInteractionListener mListener;
 
     public InProcessTabFragment() {
@@ -80,7 +82,6 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        inProcessPresenter = new InProcessPresenterImpl(App.getApplication(),this);
     }
 
     @Override
@@ -89,11 +90,9 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_in_process_tab, container, false);
         ButterKnife.bind(this, view);
-        final UserProfile userProfile = Utilities.getUserFromPref(App.getApplication());
-        final String accesstoken = Utilities.getTokenFromPref(App.getApplication());
+
         //Log.i("ASMAAA",userProfile.getId().toString());
-        inProcessPresenter.getOrders(accesstoken);
-        inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+        //inProcessPresenter.getOrders(accesstoken);
 
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_green_light,
@@ -103,7 +102,7 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+                getUpcomingOrders();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -156,5 +155,26 @@ public class InProcessTabFragment extends Fragment implements InProcessContract.
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private void getUpcomingOrders(){
+        if (!Utilities.isConnectedToInternet(App.getApplication())) {
+            Utilities.showInternetErrorDialog(getActivity());
+        }
+        else if(userProfile.getId()!=null&&accesstoken!=null)
+            inProcessPresenter.getUpcomingOrders(userProfile.getId().toString(),accesstoken);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getUpcomingOrders();
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // Refresh your fragment here
+            getUpcomingOrders();
+        }
     }
 }
