@@ -32,12 +32,14 @@ import com.ramotion.foldingcell.FoldingCell;
 
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.OrderListViewHolder> implements
 HomeScreenContract.HomeScreen{
+   private HashSet<Integer> unfoldedIndexes = new HashSet<>();
 
     private Context context;
     private List<OrderResponseObject> list;
@@ -98,6 +100,7 @@ HomeScreenContract.HomeScreen{
        //holder.statusSpinner.setSelection(statusPositiion(list.get(position).getOrderStatus(),changeStatusList));
         if(list.get(position).getOrderStatus().equals("DELIVERED")){
             holder.statusSpinner.setClickable(false);
+            holder.btn_map.setHint("Show On Map");
         }
 
         holder.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -133,6 +136,10 @@ HomeScreenContract.HomeScreen{
                 context.startActivity(intent);
             }
         });
+        if (unfoldedIndexes.contains(position)) {holder.foldingCell.unfold(true);
+        } else {
+            holder.foldingCell.fold(true);
+        }
 
 
     }
@@ -180,6 +187,21 @@ HomeScreenContract.HomeScreen{
         String[] x=date.split(spliter);
         return  x;
 
+    }
+    // simple methods for register cell state changes
+    public void registerToggle(int position) {
+        if (unfoldedIndexes.contains(position))
+            registerFold(position);
+        else
+            registerUnfold(position);
+    }
+
+    public void registerFold(int position) {
+        unfoldedIndexes.remove(position);
+    }
+
+    public void registerUnfold(int position) {
+        unfoldedIndexes.add(position);
     }
 
 
