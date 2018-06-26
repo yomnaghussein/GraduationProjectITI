@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-public class InProcessPresenterImpl implements InProcessContract.InProcessPresenter,HomeScreenContract.HomePresenter,BaseService.ViewUpcomingOrders,BaseService.ViewOrderStatus{
+public class InProcessPresenterImpl implements InProcessContract.InProcessPresenter,BaseService.ViewUpcomingOrders,BaseService.ViewOrderStatus{
     private static final String LOG_TAG = InProcessPresenterImpl.class.getSimpleName();
     private final Context context;
     private final InProcessContract.InProcessFragment view;
@@ -110,8 +110,5 @@ public class InProcessPresenterImpl implements InProcessContract.InProcessPresen
 
 
 
-    @Override
-    public void updateOrderStatus(long orderId, String orderStatus) {
 
-    }
 }

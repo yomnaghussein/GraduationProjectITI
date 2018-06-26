@@ -15,6 +15,7 @@ import com.example.iti.gradproject.models.domain.networkservices.userprofile.Use
 import com.example.iti.gradproject.models.domain.networkservices.userprofile.UserProfileServiceImpl;
 import com.example.iti.gradproject.models.entities.LoginResponse;
 import com.example.iti.gradproject.models.Utilities;
+import com.example.iti.gradproject.models.entities.UserProfileResponse;
 
 import java.lang.annotation.Annotation;
 
@@ -22,7 +23,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseService.Login {
+public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseService.Login, BaseService.ViewUserProfile {
 
     private static final String LOG_TAG = LogInPresenterImpl.class.getSimpleName();
     private final Context context;
@@ -74,7 +75,7 @@ public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseSer
                 Log.i(LOG_TAG, "accessToken: " + accesstoken);
                 Utilities.saveTokenPref(App.getApplication(),accesstoken);
 
-                new UserProfileServiceImpl().getUserProfile("Bearer "+accesstoken);
+                new UserProfileServiceImpl().getUserProfile("Bearer "+accesstoken,  this);
                 view.navigateToOrdersActivity();
                 break;
 
@@ -89,6 +90,11 @@ public class LogInPresenterImpl implements LogInContract.LogInPresenter, BaseSer
                     e.printStackTrace();
                 }
         }
+
+    }
+
+    @Override
+    public void onSuccessView(Response<UserProfileResponse> response) {
 
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.iti.gradproject.models.App;
 import com.example.iti.gradproject.models.Utilities;
+import com.example.iti.gradproject.models.domain.basenetworkservice.BaseService;
 import com.example.iti.gradproject.models.domain.network.RetrofitClient;
 import com.example.iti.gradproject.models.entities.UserProfile;
 import com.example.iti.gradproject.models.entities.UserProfileResponse;
@@ -19,7 +20,7 @@ public class UserProfileServiceImpl {
         userProfileService = RetrofitClient.getsInstance().create(UserProfileService.class);
     }
 
-    public void getUserProfile(String token) {
+    public void getUserProfile(String token, final BaseService.ViewUserProfile viewUserProfile) {
 
 
         userProfileService.getUserProfile(token)
@@ -35,6 +36,7 @@ public class UserProfileServiceImpl {
                             Log.i("CHECKING_Profile",userProfile.getEmail());
                             Utilities.saveUserPref(App.getApplication(), userProfile);
                             //callBack.onSuccess(response.body().getUserProfile());
+                            viewUserProfile.onSuccessView(response);
                         } else {
                             Log.i("CHECKING_Profile", "Error");
 

@@ -32,4 +32,17 @@ public class Utilities {
 
         return gson.fromJson(userAsString, UserProfile.class);
     }
+    public static void logUserOutAndRemoveAllStoredData(Context context) {
+        Utilities.emptyTokenPref(context);
+        Utilities.emptyUserPref(context);
+
+    }
+    public static void emptyTokenPref(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.edit().putString("AccessToken", "").apply();
+    }
+    public static void emptyUserPref(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.edit().putString("user_obj", "").apply();
+    }
 }

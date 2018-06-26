@@ -24,6 +24,8 @@ public interface BaseService {
     interface ViewOrderStatus extends BaseService {
         void onSuccessOrders(Response<OrderStatusResponse> response);
     }
-
+    interface ViewUserProfile extends BaseService {
+        void onSuccessView(Response<UserProfileResponse> response);
+    }
 
 }
