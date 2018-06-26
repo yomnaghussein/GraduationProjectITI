@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.iti.gradproject.R;
+import com.example.iti.gradproject.models.Utilities;
 import com.example.iti.gradproject.screens.editprofilescreen.EditProfileScreen;
 import com.example.iti.gradproject.screens.homescreen.DoneScreen.DoneTabFragment;
 import com.example.iti.gradproject.screens.homescreen.InProcessScreen.InProcessTabFragment;
@@ -64,8 +65,12 @@ public class HomeScreen extends AppCompatActivity implements InProcessTabFragmen
         profileImgV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(HomeScreen.this, EditProfileScreen.class);
-                startActivity(intent);
+                if(!Utilities.isConnectedToInternet(HomeScreen.this)){
+                    Utilities.showInternetErrorDialog(HomeScreen.this);
+                }else {
+                    Intent intent = new Intent(HomeScreen.this, EditProfileScreen.class);
+                    startActivity(intent);
+                }
             }
         });
 

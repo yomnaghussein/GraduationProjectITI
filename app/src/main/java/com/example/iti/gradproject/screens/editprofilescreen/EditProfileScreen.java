@@ -46,7 +46,12 @@ public class EditProfileScreen extends AppCompatActivity implements EditProfileC
         ButterKnife.bind(this);
         editProfilePresenter = new EditProfilePresenterImpl(App.getApplication(),this);
         final String accesstoken = Utilities.getTokenFromPref(App.getApplication());
-        editProfilePresenter.getUserProfile(accesstoken);
+        if(!Utilities.isConnectedToInternet(EditProfileScreen.this)){
+            Utilities.showInternetErrorDialog(EditProfileScreen.this);
+        }
+        else {
+            editProfilePresenter.getUserProfile(accesstoken);
+        }
         backImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,14 +61,18 @@ public class EditProfileScreen extends AppCompatActivity implements EditProfileC
         btnSignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilities.logUserOutAndRemoveAllStoredData(EditProfileScreen.this);
-                Intent intent = new Intent(EditProfileScreen.this, LogInScreen.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                if(!Utilities.isConnectedToInternet(EditProfileScreen.this)){
+                    Utilities.showInternetErrorDialog(EditProfileScreen.this);
+                }else {
+                    Utilities.logUserOutAndRemoveAllStoredData(EditProfileScreen.this);
+                    Intent intent = new Intent(EditProfileScreen.this, LogInScreen.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                startActivity(intent);
-                finish();
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

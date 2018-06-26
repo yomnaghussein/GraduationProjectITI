@@ -32,6 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:layout_weight="1"
+        android:fontFamily="@font/blackjack"
         android:text="@string/Splash_text"
         android:textColor="@color/white"
         android:textSize="40sp"
