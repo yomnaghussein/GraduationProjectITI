@@ -174,7 +174,10 @@ public class DoneTabFragment extends Fragment implements DoneContract.DoneFragme
     }
 
     public void getHistoryOrders(){
-        if(userProfile.getId()!=null&&accesstoken!=null)
+        if (!Utilities.isConnectedToInternet(getActivity())) {
+            Utilities.showInternetErrorDialog(getActivity());
+        }
+        else if(userProfile.getId()!=null&&accesstoken!=null)
             donePresenter.getHistoryOrders(userProfile.getId().toString(),accesstoken);
 
     }

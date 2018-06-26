@@ -1,5 +1,6 @@
 package com.example.iti.gradproject.models;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
